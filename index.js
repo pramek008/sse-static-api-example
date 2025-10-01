@@ -12,7 +12,7 @@ app.use(cors());
 // 1. STREAMING ENDPOINT (SERVER-SENT EVENTS / SSE)
 // Ideal for simulating LLM response streaming
 // ----------------------------------------------------
-app.get("/stream", (req, res) => {
+app.get("/stream-sse", (req, res) => {
   // Set headers for Server-Sent Events
   res.setHeader("Content-Type", "text/event-stream");
   res.setHeader("Cache-Control", "no-cache");
@@ -52,6 +52,44 @@ app.get("/stream", (req, res) => {
     clearInterval(interval);
     res.end();
     console.log("Client closed the connection.");
+  });
+});
+
+// ----------------------------------------------------
+// 2. NDJSON ENDPOINT (Newline Delimited JSON)
+// Similar to Ollama response style
+// ----------------------------------------------------
+app.get("/stream-ndjson", (req, res) => {
+  res.setHeader("Content-Type", "application/x-ndjson");
+  res.setHeader("Cache-Control", "no-cache");
+  res.setHeader("Connection", "keep-alive");
+  res.flushHeaders();
+
+  const longParagraph =
+    "This NDJSON demonstration mimics how Ollama or other LLM APIs send responses as newline-delimited JSON objects. Each line you see is a chunk of data, separated by a newline, until the final finish signal is sent.";
+  const words = longParagraph.split(" ");
+
+  let index = 0;
+  const interval = setInterval(() => {
+    if (index < words.length) {
+      const chunk = {
+        content: words[index] + " ",
+        finish: false,
+      };
+      res.write(JSON.stringify(chunk) + "\n"); // NDJSON = JSON + newline
+      index++;
+    } else {
+      const endChunk = { content: null, finish: true };
+      res.write(JSON.stringify(endChunk) + "\n");
+      clearInterval(interval);
+      res.end();
+    }
+  }, 100);
+
+  req.on("close", () => {
+    clearInterval(interval);
+    res.end();
+    console.log("Client closed NDJSON connection.");
   });
 });
 

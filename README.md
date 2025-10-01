@@ -95,11 +95,11 @@ A simple welcome message to confirm the server is running.
   - **Code**: 200
   - **Content**: `Practice API server is running. Try accessing /stream, /api/data, or /stream-loop`
 
-### 2\. Streaming Endpoint (Auto-Finishing)
+### 2\. Streaming Endpoint SSE (Auto-Finishing)
 
 Streams a paragraph word by word and closes the connection when finished.
 
-- **URL**: `/stream`
+- **URL**: `/stream-sse`
 
 - **Method**: `GET`
 
@@ -145,7 +145,25 @@ Streams words from a sentence continuously in an infinite loop.
   ...
   ```
 
-### 4\. Static Data Endpoint
+### 4\. Streaming Endpoint (NDJSON)
+
+Streams a paragraph word by word, similar to the `/stream-sse` endpoint, but uses newline-delimited JSON objects (NDJSON) instead of Server-Sent Events.
+
+- **URL**: `/stream-ndjson`
+- **Method**: `GET`
+- **Content-Type**: `application/x-ndjson`
+- **Response Stream Format**: Each message is a JSON string prefixed with no additional information. The stream ends when a message with `finish: true` is sent.
+
+  **Example Chunk:**
+
+  ```
+  {
+  "content": "This",
+  "finish": false
+  }
+  ```
+
+### 5\. Static Data Endpoint
 
 Returns a complete JSON object in a single response.
 
