@@ -139,9 +139,14 @@ app.get("/stream-loop", (req, res) => {
 
 // Root endpoint for health check or welcome message
 app.get("/", (req, res) => {
-  res.send(
-    "Practice API server is running. \nTry accessing \n/stream, \n/api/data, or \n/stream-loop"
-  );
+  res.send(`
+    Practice API server is running.<br>
+    Try accessing:<br>
+    - /stream-sse: Streaming endpoint that mimics an LLM response using Server-Sent Events (SSE).<br>
+    - /stream-ndjson: Streaming endpoint that mimics an Ollama response using newline-delimited JSON (NDJSON).<br>
+    - /api/data: Standard JSON endpoint that returns a complete static JSON object.<br>
+    - /stream-loop: Streaming endpoint that continuously sends words in an infinite loop.
+  `);
 });
 
 // Start the server
