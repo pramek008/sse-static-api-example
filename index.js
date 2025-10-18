@@ -66,7 +66,7 @@ app.get("/stream-ndjson", (req, res) => {
   res.flushHeaders();
 
   const longParagraph =
-    "This NDJSON demonstration mimics how Ollama or other LLM APIs send responses as newline-delimited JSON objects. Each line you see is a chunk of data, separated by a newline, until the final finish signal is sent.";
+    "This NDJSON demonstration mimics how Ollama or other LLM APIs send responses as newline-delimited JSON objects. Each line you see is a chunk of data, separated by a newline, until the final finish signal is sent. Large Language Models, often abbreviated as LLMs, are a type of artificial intelligence model trained on vast amounts of text data. They are designed to understand, generate, and respond to human language in a coherent and contextually relevant manner. This streaming demonstration mimics how an LLM might deliver its response token by token, providing a more interactive user experience rather than waiting for the entire output to be generated. ";
   const words = longParagraph.split(" ");
 
   let index = 0;
@@ -94,7 +94,7 @@ app.get("/stream-ndjson", (req, res) => {
 });
 
 // ----------------------------------------------------
-// 2. STANDARD FETCH ENDPOINT (NON-STREAMING)
+// 3. STANDARD FETCH ENDPOINT (NON-STREAMING)
 // ----------------------------------------------------
 app.get("/api/data", (req, res) => {
   const data = {
@@ -102,7 +102,7 @@ app.get("/api/data", (req, res) => {
     type: "static_response",
     title: "Complete Static Data",
     message:
-      "This is a complete JSON response sent all at once. It's useful for scenarios where the client needs all the data before rendering, unlike a streaming approach which is better for progressive data loading.",
+      "This is a complete JSON response sent all at once. It's useful for scenarios where the client needs all the data before rendering, unlike a streaming approach which is better for progressive data loading. It's also useful for testing or debugging purposes. Try accessing /stream, /stream-sse, or /stream-loop for streaming responses.",
     author: "Practice API",
     metadata: {
       timestamp: new Date().toISOString(),
@@ -120,7 +120,7 @@ app.get("/api/data", (req, res) => {
 });
 
 // ----------------------------------------------------
-// 3. LOOPING STREAMING ENDPOINT
+// 4. LOOPING STREAMING ENDPOINT
 // ----------------------------------------------------
 app.get("/stream-loop", (req, res) => {
   res.setHeader("Content-Type", "text/event-stream");
@@ -140,7 +140,7 @@ app.get("/stream-loop", (req, res) => {
 // Root endpoint for health check or welcome message
 app.get("/", (req, res) => {
   res.send(
-    "Practice API server is running. Try accessing /stream or /api/data"
+    "Practice API server is running. \nTry accessing \n/stream, \n/api/data, or \n/stream-loop"
   );
 });
 
