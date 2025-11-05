@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  llm-practice-api:
+    build: .
+    ports:
+      - "3950:3950"
+    environment:
+      - PORT=3950
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+        reservations:
+          cpus: "0.25"
+          memory: 128M
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3950"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
