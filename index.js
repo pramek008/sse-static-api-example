@@ -137,6 +137,17 @@ app.get("/stream-loop", (req, res) => {
   }, 200);
 });
 
+// ----------------------------------------------------
+// 5. HEALTH CHECK ENDPOINT
+// ----------------------------------------------------
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    status: "OK",
+    timestamp: new Date().toISOString(),
+    service: "LLM Practice API",
+  });
+});
+
 // Root endpoint for health check or welcome message
 app.get("/", (req, res) => {
   res.send(`
