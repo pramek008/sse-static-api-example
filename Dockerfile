@@ -2,6 +2,9 @@ FROM node:20-alpine
 
 WORKDIR /app
 
+# Install curl for healthcheck
+RUN apk add --no-cache curl
+
 # Copy package files
 COPY package*.json ./
 
@@ -11,8 +14,6 @@ RUN npm install
 # Copy source code
 COPY . .
 
-# Expose port
 EXPOSE 3950
 
-# Start the application
 CMD ["npm", "start"]
